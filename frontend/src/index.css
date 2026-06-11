@@ -151,36 +151,42 @@ h1, h2, h3, h4 {
   border-color: var(--brand-primary);
 }
 
-/* Button Styles - Clean, Solid & Minimalist */
+/* Button Styles - Clean, Solid & Highly Interactive */
 .btn {
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 0.75rem 1.5rem;
   text-align: center;
-  transition: var(--transition-smooth);
+  /* Smooth spring easing for layout transition scale */
+  transition: 
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    background-color 0.2s ease, 
+    box-shadow 0.2s ease, 
+    border-color 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
   background: var(--brand-primary);
   color: #fff;
-  font-weight: 600;
 }
 
 .btn-primary:hover {
   background: var(--brand-secondary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
-/* Remove button shines */
-.btn-primary::after {
-  display: none !important;
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.1);
 }
 
 .btn-secondary {
@@ -191,19 +197,31 @@ h1, h2, h3, h4 {
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.08);
   color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.15);
 }
 
 .btn-danger:hover {
-  background: rgba(239, 68, 68, 0.15);
-  transform: translateY(-1px);
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.12);
+}
+
+.btn-danger:active {
+  transform: translateY(0) scale(0.97);
 }
 
 /* Spinner */

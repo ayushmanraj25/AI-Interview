@@ -20,10 +20,23 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  transition: var(--transition-smooth);
+}
+
+/* Micro-interaction: logo rotate on hover */
+.navbar-logo:hover .logo-icon {
+  transform: rotate(12deg) scale(1.1);
 }
 
 .logo-icon {
   font-size: 1.4rem;
+  transition: var(--transition-smooth);
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .nav-link {
@@ -35,18 +48,31 @@
   padding: 0.3rem 0;
 }
 
-.nav-link:hover, .nav-link.active {
+/* Premium Interaction: fade out non-hovered links in the list */
+.navbar-links:hover .nav-link {
+  opacity: 0.6;
+}
+
+.navbar-links:hover .nav-link:hover {
+  opacity: 1;
   color: var(--text-primary);
 }
 
-/* Simple clean line instead of neon */
+/* Keep active/hovered link opaque always */
+.nav-link.active {
+  color: var(--text-primary);
+  opacity: 1 !important;
+}
+
+/* Underline expands from center on hover/active */
 .nav-link::after {
   content: '';
   position: absolute;
   width: 0;
   height: 2px;
   bottom: -4px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   background: var(--brand-primary);
   transition: var(--transition-smooth);
   border-radius: 999px;
