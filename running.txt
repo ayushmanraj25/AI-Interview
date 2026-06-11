@@ -1,0 +1,38 @@
+
+@@@ BACKEND @@@
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+
+
+@@@ FRONTEND @@@
+cd frontend
+npm run dev
+
+
+@@@ DOCKER RUN @@@
+docker-compose up --build
+
+
+
+
+Docker Compose (docker-compose.yml) basically ek configuration file hoti hai, jiska use hum ek saath multiple Docker Containers ko define aur run karne ke liye karte hain.
+
+Aasan shabdo me bole toh, ye ek "Master Controller" ki tarah hai, jo pure project ke alag-alag parts ko sirf ek command se automatic start aur manage kar deta hai.
+
+Hamare Project (AI-Interview) me iska kya kaam hai?
+Hamare project me alag-alag components (Services) hain jo aapas me connect hote hain:
+
+backend (FastAPI Server): Jo Python ka main code run karta hai aur AI logic chalat hai.
+chromadb (Vector Database): Jo interview ke questions ko vector format me store karta hai (RAG system ke liye).
+Agar hum Docker Compose use nahi karenge, toh hume:
+
+Pehle terminal me jaakar manually FastAPI server start karna padega.
+Dusre terminal me jaakar manually ChromaDB ka server start karna padega.
+Fir aapas me inki port configuration setup karni padegi.
+docker-compose.yml hamara kaam kaise aasan karta hai:
+One-Command Setup: Aapko alag-alag terminal kholne ki jaroorat nahi hai. Bas ek simple command docker-compose up run karo, aur backend + ChromaDB dono ek saath start ho jayenge.
+Auto-Networking: Ye file backend aur ChromaDB ke beech me automatic ek internal bridge network bana deti hai, jisse backend bina kisi problem ke database se connect ho jata hai.
+Data Persistence (Volumes): Agar aap docker container ko stop ya delete bhi kar doge, toh bhi aapka data (resumes, audio, video aur Chroma database) safe rahega, kyunki ye aapke local computer ke folders ke saath sinked (mapped) rehta hai.
+Environment Variables: Aap apne API keys (jaise GEMINI_API_KEY, Supabase keys) ko iske through asani se backend code me pass kar sakte ho bina code ko touch kiye.
+Basically, ye development setup ko super fast aur clean bana deta hai!

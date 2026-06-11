@@ -1,0 +1,14 @@
+.mock-interview-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-info {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.interview-workspace {
+  width: 100%;
+}

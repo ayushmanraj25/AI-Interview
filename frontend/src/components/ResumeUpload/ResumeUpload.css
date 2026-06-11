@@ -1,0 +1,103 @@
+.resume-upload {
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(26, 28, 36, 0.4);
+  border-radius: var(--border-radius);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.25rem !important;
+  box-shadow: none !important;
+}
+
+.resume-upload:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.resume-upload.drag-active {
+  border-color: var(--brand-primary);
+  background: rgba(16, 185, 129, 0.02);
+  transform: scale(1.005);
+}
+
+.upload-icon {
+  font-size: 3rem;
+  margin-bottom: 0.25rem;
+}
+
+.upload-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.upload-subtext {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0.2rem 0;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.progress-container {
+  width: 100%;
+}
+
+.file-info {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.file-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.progress-bar-wrapper {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  height: 5px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background: var(--brand-primary);
+  height: 100%;
+  width: 0%;
+  transition: width 0.25s ease-out;
+  border-radius: 999px;
+}
+
+.progress-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.success-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--success-color);
+}

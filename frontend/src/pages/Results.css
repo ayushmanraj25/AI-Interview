@@ -1,0 +1,10 @@
+.results-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-actions {
+  width: 100%;
+  justify-content: center;
+}

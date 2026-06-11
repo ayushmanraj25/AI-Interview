@@ -1,0 +1,16 @@
+.video-interview-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace-header {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 992px) {
+  .video-interview-page .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
