@@ -90,3 +90,100 @@
     gap: 1rem !important;
   }
 }
+
+/* Settings Button (Rounded tab style) */
+.settings-btn {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--brand-primary);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  font-size: 1.15rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-btn:hover {
+  background: rgba(16, 185, 129, 0.2);
+  transform: rotate(45deg) scale(1.05);
+}
+
+/* Settings Drawer Overlay */
+.settings-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 109;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.settings-drawer-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Settings Drawer panel */
+.settings-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background: rgba(18, 19, 24, 0.96);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
+  z-index: 110;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-drawer.open {
+  right: 0;
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.drawer-close-btn:hover {
+  color: var(--text-primary);
+}
+
+.setting-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 1.25rem;
+}
+
+.setting-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  letter-spacing: 0.05em;
+}
+
+.option-row {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.option-row input[type="radio"], 
+.option-row input[type="checkbox"] {
+  accent-color: var(--brand-primary);
+}
