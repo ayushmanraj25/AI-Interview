@@ -62,7 +62,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login" className="nav-link">Login</Link>
-                <Link to="/register" className="btn btn-primary py-1 px-4">Registr</Link>
+                <Link to="/register" className="btn btn-primary py-1 px-4">Register</Link>
               </>
             )}
             
