@@ -7,6 +7,7 @@ import './ResumeAnalysis.css'
 export default function ResumeAnalysis() {
   const [analysisResult, setAnalysisResult] = useState(null)
   const [jobTitle, setJobTitle] = useState('Frontend Engineer')
+  const [activeTab, setActiveTab] = useState('skills')
   const navigate = useNavigate()
 
   const handleUploadComplete = (file) => {
@@ -17,7 +18,12 @@ export default function ResumeAnalysis() {
         skills: ['React', 'JavaScript', 'HTML5/CSS3', 'Node.js', 'Express', 'Git', 'Webpack', 'Rest APIs'],
         experience_years: 2.5,
         education: 'Bachelor of Science in Computer Science',
-        suggested_roles: ['Frontend Developer', 'React Developer', 'UI Engineer']
+        suggested_roles: ['Frontend Developer', 'React Developer', 'UI Engineer'],
+        roadmap: [
+          { topic: 'System Design', desc: 'Study frontend caching, bundler optimizations, and CDN configurations.' },
+          { topic: 'Advanced State Management', desc: 'Deep dive into Redux Toolkit, Zustand, or React Context API.' },
+          { topic: 'Performance Auditing', desc: 'Optimize Core Web Vitals (LCP, FID, INP) and profiling with DevTools.' }
+        ]
       })
     }, 1000)
   }
@@ -45,20 +51,82 @@ export default function ResumeAnalysis() {
             <div className="grid grid-2 gap-4">
               <div className="info-box">
                 <span className="info-label">Detected Experience</span>
-                <span className="info-value text-indigo">{analysisResult.experience_years} Years</span>
+                <span className="info-value text-indigo" style={{ color: '#818cf8' }}>{analysisResult.experience_years} Years</span>
               </div>
               <div className="info-box">
                 <span className="info-label">Education Context</span>
-                <span className="info-value text-cyan">{analysisResult.education}</span>
+                <span className="info-value text-cyan" style={{ color: '#22d3ee' }}>{analysisResult.education}</span>
               </div>
             </div>
 
-            <div className="skills-extracted">
-              <span className="section-label">Skills Extracted:</span>
-              <div className="skills-badge-container mt-2 flex flex-wrap gap-2">
-                {analysisResult.skills.map((skill, idx) => (
-                  <span key={idx} className="skill-badge">{skill}</span>
-                ))}
+            {/* Tabbed Category Navigation */}
+            <div className="tabs-container">
+              <div className="tabs-headers flex gap-2 border-b border-gray-800 pb-2 mb-4">
+                <button 
+                  className={`tab-btn ${activeTab === 'skills' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('skills')}
+                >
+                  Parsed Skills
+                </button>
+                <button 
+                  className={`tab-btn ${activeTab === 'roles' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('roles')}
+                >
+                  Suggested Roles
+                </button>
+                <button 
+                  className={`tab-btn ${activeTab === 'roadmap' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('roadmap')}
+                >
+                  Growth Roadmap
+                </button>
+              </div>
+
+              <div className="tab-content transition-all duration-200">
+                {activeTab === 'skills' && (
+                  <div className="skills-extracted animate-fade-in">
+                    <span className="section-label">Technical Competencies:</span>
+                    <div className="skills-badge-container mt-3 flex flex-wrap gap-2">
+                      {analysisResult.skills.map((skill, idx) => (
+                        <span key={idx} className="skill-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'roles' && (
+                  <div className="suggested-roles animate-fade-in">
+                    <span className="section-label">Matched Job Roles:</span>
+                    <p className="text-xs text-gray-400 mt-1 mb-3">Select a role below to configure your upcoming mock interview session.</p>
+                    <div className="roles-list-container flex flex-col gap-2">
+                      {analysisResult.suggested_roles.map((role, idx) => (
+                        <div 
+                          key={idx} 
+                          className="role-item-box p-3 glass-card flex justify-between items-center cursor-pointer hover-accent" 
+                          onClick={() => setJobTitle(role)}
+                        >
+                          <span className="font-semibold text-gray-200">{role}</span>
+                          <span className="text-xs text-brand-primary" style={{ color: '#10b981' }}>Select Role →</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'roadmap' && (
+                  <div className="learning-roadmap animate-fade-in">
+                    <span className="section-label">Preparation Roadmap:</span>
+                    <p className="text-xs text-gray-400 mt-1 mb-3">Recommended learning focus areas based on your background.</p>
+                    <div className="roadmap-timeline flex flex-col gap-3">
+                      {analysisResult.roadmap.map((step, idx) => (
+                        <div key={idx} className="roadmap-step p-3 glass-card border-l-2" style={{ borderLeftColor: '#10b981' }}>
+                          <span className="step-title font-bold text-sm block text-gray-200">{step.topic}</span>
+                          <p className="step-desc text-xs text-gray-400 mt-1">{step.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

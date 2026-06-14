@@ -1,8 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
 import Navbar from '../components/Navbar/Navbar'
 import { authService } from '../services/authService'
 import './Dashboard.css'
+
+// Register Chart.js components for Line chart
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+)
 
 export default function Dashboard() {
   const [user, setUser] = useState(null)
@@ -15,6 +39,90 @@ export default function Dashboard() {
   useEffect(() => {
     setUser(authService.getCurrentUser())
   }, [])
+
+  // Sort sessions chronologically (oldest to newest) for line progression
+  const sortedSessions = [...pastSessions].sort((a, b) => new Date(a.date) - new Date(b.date))
+
+  const chartData = {
+    labels: sortedSessions.map(s => {
+      // Format date nicely e.g. "Jun 1"
+      const dateObj = new Date(s.date)
+      return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
+    }),
+    datasets: [
+      {
+        label: 'Overall Score',
+        data: sortedSessions.map(s => s.score),
+        fill: true,
+        borderColor: '#10b981', // Sage Green
+        backgroundColor: 'rgba(16, 185, 129, 0.04)', // Minimal transparent green fill
+        tension: 0.3, // Soft curve
+        pointBackgroundColor: '#10b981',
+        pointBorderColor: '#121318',
+        pointBorderWidth: 2,
+        pointHoverBackgroundColor: '#121318',
+        pointHoverBorderColor: '#10b981',
+        pointHoverBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }
+    ]
+  }
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.04)'
+        },
+        ticks: {
+          color: 'rgba(255, 255, 255, 0.4)',
+          font: {
+            family: 'Inter, system-ui, -apple-system, sans-serif',
+            size: 10
+          },
+          stepSize: 10
+        },
+        min: 50,
+        max: 100
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          color: 'rgba(255, 255, 255, 0.4)',
+          font: {
+            family: 'Inter, system-ui, -apple-system, sans-serif',
+            size: 10
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        backgroundColor: '#1c1d24',
+        titleColor: '#fff',
+        bodyColor: '#10b981',
+        borderColor: 'rgba(255, 255, 255, 0.08)',
+        borderWidth: 1,
+        padding: 10,
+        displayColors: false,
+        callbacks: {
+          title: (tooltipItems) => {
+            const index = tooltipItems[0].dataIndex
+            return sortedSessions[index].role
+          },
+          label: (context) => ` Score: ${context.raw}%`
+        }
+      }
+    }
+  }
 
   return (
     <div className="dashboard-page">
@@ -39,12 +147,21 @@ export default function Dashboard() {
             <span className="stat-label mt-2 text-xs text-gray-400 text-uppercase font-semibold">Total Sessions</span>
           </div>
           <div className="stat-card glass-card flex flex-col items-center">
-            <span className="stat-val text-cyan font-extrabold text-3xl">83%</span>
+            <span className="stat-val text-cyan font-extrabold text-3xl" style={{ color: '#22d3ee' }}>83%</span>
             <span className="stat-label mt-2 text-xs text-gray-400 text-uppercase font-semibold">Average Score</span>
           </div>
           <div className="stat-card glass-card flex flex-col items-center">
-            <span className="stat-val text-green font-extrabold text-3xl">100%</span>
+            <span className="stat-val text-green font-extrabold text-3xl" style={{ color: '#10b981' }}>100%</span>
             <span className="stat-label mt-2 text-xs text-gray-400 text-uppercase font-semibold">Completeness</span>
+          </div>
+        </div>
+
+        {/* Score Progression Analytics Panel */}
+        <div className="analytics-panel glass-card">
+          <h3 className="text-lg font-bold">Score Progression Analytics</h3>
+          <p className="text-gray-400 text-sm mt-1 mb-6">Historical record of performance grades across evaluation sessions.</p>
+          <div className="chart-container" style={{ height: '240px', width: '100%', position: 'relative' }}>
+            <Line data={chartData} options={chartOptions} />
           </div>
         </div>
 

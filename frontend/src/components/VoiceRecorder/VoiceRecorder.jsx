@@ -5,16 +5,24 @@ export default function VoiceRecorder({ onRecordingComplete }) {
   const [recording, setRecording] = useState(false)
   const [processing, setProcessing] = useState(false)
   const [timer, setTimer] = useState(0)
+  
   const mediaRecorderRef = useRef(null)
   const audioChunksRef = useRef([])
   const timerIntervalRef = useRef(null)
+  
   const canvasRef = useRef(null)
   const animationFrameRef = useRef(null)
+  
+  // Audio API refs for real visualizer
+  const audioCtxRef = useRef(null)
+  const analyserRef = useRef(null)
+  const sourceRef = useRef(null)
+  const streamRef = useRef(null)
 
   useEffect(() => {
     return () => {
       stopTimer()
-      cancelAnimationFrame(animationFrameRef.current)
+      cleanupAudio()
     }
   }, [])
 
@@ -32,6 +40,28 @@ export default function VoiceRecorder({ onRecordingComplete }) {
     }
   }
 
+  const cleanupAudio = () => {
+    cancelAnimationFrame(animationFrameRef.current)
+    stopTimer()
+    
+    if (sourceRef.current) {
+      sourceRef.current.disconnect()
+      sourceRef.current = null
+    }
+    if (analyserRef.current) {
+      analyserRef.current.disconnect()
+      analyserRef.current = null
+    }
+    if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
+      audioCtxRef.current.close()
+      audioCtxRef.current = null
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop())
+      streamRef.current = null
+    }
+  }
+
   const formatTime = (secs) => {
     const mins = Math.floor(secs / 60)
     const remainSecs = secs % 60
@@ -40,10 +70,26 @@ export default function VoiceRecorder({ onRecordingComplete }) {
 
   const startRecording = async () => {
     audioChunksRef.current = []
+    cleanupAudio()
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      mediaRecorderRef.current = new MediaRecorder(stream)
+      streamRef.current = stream
+      
+      // Setup Web Audio API for real-time visualization
+      const AudioContext = window.AudioContext || window.webkitAudioContext
+      const audioContext = new AudioContext()
+      const analyser = audioContext.createAnalyser()
+      analyser.fftSize = 128 // 64 frequency bins
+      
+      const source = audioContext.createMediaStreamSource(stream)
+      source.connect(analyser)
+      
+      audioCtxRef.current = audioContext
+      analyserRef.current = analyser
+      sourceRef.current = source
 
+      mediaRecorderRef.current = new MediaRecorder(stream)
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           audioChunksRef.current.push(event.data)
@@ -54,27 +100,23 @@ export default function VoiceRecorder({ onRecordingComplete }) {
         setProcessing(true)
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
         
-        // Simulate speech-to-text delay
         setTimeout(() => {
           setProcessing(false)
           if (onRecordingComplete) {
             onRecordingComplete(audioBlob)
           }
         }, 1500)
-
-        // Stop all audio tracks to release microphone
-        stream.getTracks().forEach(track => track.stop())
       }
 
       mediaRecorderRef.current.start()
       setRecording(true)
       startTimer()
-      startWaveformAnimation()
+      startRealWaveform()
     } catch (err) {
-      console.warn("Microphone access blocked or failed, simulating record mode:", err.message)
+      console.warn("Real mic access failed, starting simulation recorder:", err.message)
       setRecording(true)
       startTimer()
-      startWaveformAnimation()
+      startSimulatedWaveform()
     }
   }
 
@@ -82,46 +124,89 @@ export default function VoiceRecorder({ onRecordingComplete }) {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
       mediaRecorderRef.current.stop()
     } else {
-      // Simulation stop path
+      // Simulation fallback stop path
       setRecording(false)
       stopTimer()
       setProcessing(true)
       setTimeout(() => {
         setProcessing(false)
         if (onRecordingComplete) {
-          // Send mock empty audio blob
           onRecordingComplete(new Blob([], { type: 'audio/wav' }))
         }
       }, 1500)
     }
+    
     setRecording(false)
-    stopTimer()
-    cancelAnimationFrame(animationFrameRef.current)
+    cleanupAudio()
     clearCanvas()
   }
 
-  // Draw dynamic fake waveform bars
-  const startWaveformAnimation = () => {
+  // Visualizer: Draw actual voice frequency bars
+  const startRealWaveform = () => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     const width = canvas.width
     const height = canvas.height
+    const analyser = analyserRef.current
+
+    const bufferLength = analyser.frequencyBinCount
+    const dataArray = new Uint8Array(bufferLength)
+
+    const draw = () => {
+      if (!analyserRef.current) return
+      
+      analyser.getByteFrequencyData(dataArray)
+      ctx.clearRect(0, 0, width, height)
+
+      // Accent color: Sage Green (#10b981)
+      ctx.fillStyle = '#10b981'
+      
+      const barWidth = (width / bufferLength) * 1.5
+      let x = 0
+
+      for (let i = 0; i < bufferLength; i++) {
+        // Value between 0 and 255
+        const value = dataArray[i]
+        const percent = value / 255
+        const amplitude = percent * (height * 0.8)
+        const y = (height - amplitude) / 2
+
+        ctx.fillRect(x, y, barWidth - 2, amplitude)
+        x += barWidth
+      }
+      
+      animationFrameRef.current = requestAnimationFrame(draw)
+    }
+    draw()
+  }
+
+  // Visualizer: Draw a smooth sine-wave simulation if mic not permitted
+  const startSimulatedWaveform = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    const width = canvas.width
+    const height = canvas.height
+    let time = 0
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height)
-      ctx.fillStyle = '#06b6d4' // Cyan highlight
+      ctx.strokeStyle = '#10b981'
+      ctx.lineWidth = 3
+      ctx.beginPath()
 
-      const barWidth = 4
-      const gap = 3
-      const numBars = Math.floor(width / (barWidth + gap))
-
-      for (let i = 0; i < numBars; i++) {
-        // Generate random amplitude centered around screen middle
-        const amplitude = Math.random() * (height * 0.7)
-        const y = (height - amplitude) / 2
-        ctx.fillRect(i * (barWidth + gap), y, barWidth, amplitude)
+      for (let x = 0; x < width; x++) {
+        const y = (height / 2) + Math.sin(x * 0.05 + time) * 15 * Math.sin(time * 0.5)
+        if (x === 0) {
+          ctx.moveTo(x, y)
+        } else {
+          ctx.lineTo(x, y)
+        }
       }
+      
+      ctx.stroke()
+      time += 0.1
       animationFrameRef.current = requestAnimationFrame(draw)
     }
     draw()
@@ -137,7 +222,7 @@ export default function VoiceRecorder({ onRecordingComplete }) {
   return (
     <div className="voice-recorder flex flex-col items-center justify-center p-4">
       <div className="waveform-container flex items-center justify-center">
-        <canvas ref={canvasRef} width="300" height="60" className="waveform-canvas"></canvas>
+        <canvas ref={canvasRef} width="340" height="70" className="waveform-canvas"></canvas>
       </div>
 
       <div className="recorder-status mt-2 flex items-center gap-2">

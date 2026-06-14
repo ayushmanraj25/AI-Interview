@@ -9,11 +9,28 @@
 .breakdown-item {
   box-shadow: none !important;
   border-left: 3px solid rgba(255, 255, 255, 0.08) !important;
+  transition: border-color 0.25s ease, background-color 0.25s ease !important;
 }
 
-.breakdown-item:hover {
+.breakdown-item:hover,
+.breakdown-item.active {
   border-left-color: var(--brand-primary) !important;
   transform: none !important;
+}
+
+.item-content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.item-content-wrapper.expanded {
+  grid-template-rows: 1fr;
+}
+
+.item-content-inner {
+  min-height: 0;
 }
 
 .item-score.high {

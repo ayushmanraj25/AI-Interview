@@ -39,11 +39,64 @@
 }
 
 .skill-badge {
-  background: rgba(99, 102, 241, 0.1);
-  color: #818cf8;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--brand-primary);
+  border: 1px solid rgba(16, 185, 129, 0.15);
   padding: 0.25rem 0.65rem;
   border-radius: 9999px;
   font-size: 0.8rem;
   font-weight: 500;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
+}
+
+.role-item-box {
+  transition: all 0.25s ease;
+  box-shadow: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+.role-item-box:hover {
+  border-color: var(--brand-primary) !important;
+  background: rgba(16, 185, 129, 0.04) !important;
+  transform: translateY(-1px);
+}
+
+.roadmap-step {
+  box-shadow: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
 }

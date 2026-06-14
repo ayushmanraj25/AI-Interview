@@ -63,3 +63,7 @@
   color: var(--warning-color);
   border: 1px solid rgba(245, 158, 11, 0.2);
 }
+
+.analytics-panel {
+  width: 100%;
+}
