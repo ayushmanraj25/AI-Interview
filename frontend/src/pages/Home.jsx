@@ -37,7 +37,7 @@ export default function Home() {
           <div className="feature-card glass-card text-center p-6">
             <span className="feature-emoji">🎤</span>
             <h3 className="text-xl font-semibold mt-4 mb-2">Speech Analysis</h3>
-            <p className="text-sm text-gray-400">Analyzes pronunciatin, communication pace, and detects filler words like 'um', 'like', and 'ah' automatically.</p>
+            <p className="text-sm text-gray-400">Analyzes pronunciation, communication pace, and detects filler words like 'um', 'like', and 'ah' automatically.</p>
           </div>
 
           <div className="feature-card glass-card text-center p-6">
