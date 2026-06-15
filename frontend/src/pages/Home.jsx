@@ -43,7 +43,7 @@ export default function Home() {
           <div className="feature-card glass-card text-center p-6">
             <span className="feature-emoji">👁️</span>
             <h3 className="text-xl font-semibold mt-4 mb-2">AI Eye-Tracking</h3>
-            <p className="text-sm text-gray-400">Webcam traking checks your body posture, gestures, and displays facial emotion cues in real-time.</p>
+            <p className="text-sm text-gray-400">Webcam tracking checks your body posture, gestures, and displays facial emotion cues in real-time.</p>
           </div>
         </div>
       </section>
