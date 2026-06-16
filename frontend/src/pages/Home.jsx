@@ -31,7 +31,7 @@ export default function Home() {
           <div className="feature-card glass-card text-center p-6">
             <span className="feature-emoji">📄</span>
             <h3 className="text-xl font-semibold mt-4 mb-2">Resume Parsing</h3>
-            <p className="text-sm text-gray-400">Upload your PDF and extract skills, experience, and custom questions mapped to your job role.</p>
+            <p className="text-sm text-gray-400">Upload yur PDF and extract skills, experience, and custom questions mapped to your job role.</p>
           </div>
 
           <div className="feature-card glass-card text-center p-6">
