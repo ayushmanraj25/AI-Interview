@@ -134,7 +134,7 @@ export default function Dashboard() {
         {/* Welcome Section */}
         <div className="welcome-banner glass-card flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Hello, {user?.email || 'Candidate'}!</h2>
+            <h2 className="text-2xl font-bold">Hello, {localStorage.getItem('user_display_name') || user?.email || 'Candidate'}!</h2>
             <p className="text-gray-400 text-sm mt-1">Welcome back to your AI Interview coach dashboard. Track your growth progress.</p>
           </div>
           <Link to="/resume" className="btn btn-primary">Start New Mock Session</Link>

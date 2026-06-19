@@ -18,6 +18,16 @@ export default function Navbar() {
     setUser(authService.getCurrentUser())
   }, [location.pathname])
 
+  useEffect(() => {
+    const handleSettingsUpdate = () => {
+      setAiModel(localStorage.getItem('ai_model') || 'gemini-flash')
+      setInterviewMode(localStorage.getItem('interview_mode') || 'audio_video')
+      setShowOverlay(localStorage.getItem('show_overlay') !== 'false')
+    }
+    window.addEventListener('settings-updated', handleSettingsUpdate)
+    return () => window.removeEventListener('settings-updated', handleSettingsUpdate)
+  }, [])
+
   const handleLogout = async () => {
     await authService.logout()
     setUser(null)
