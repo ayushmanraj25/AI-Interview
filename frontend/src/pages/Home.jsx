@@ -12,7 +12,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero-section container flex flex-col items-center justify-center text-center mt-12 py-16">
         <h1 className="hero-title font-extrabold">
-          Ace Your Next Interviw with <br />
+          Ace Your Next Interview with <br />
           <span className="gradient-text">AI Coach Insights</span>
         </h1>
         <p className="hero-subtitle mt-6 max-w-2xl text-gray-400">
