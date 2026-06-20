@@ -11,12 +11,24 @@ export default function Profile() {
   const [aiModel, setAiModel] = useState(localStorage.getItem('ai_model') || 'gemini-flash')
   const [interviewMode, setInterviewMode] = useState(localStorage.getItem('interview_mode') || 'audio_video')
   const [showOverlay, setShowOverlay] = useState(localStorage.getItem('show_overlay') !== 'false')
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
   const [saving, setSaving] = useState(false)
   const [toastMsg, setToastMsg] = useState('')
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser()
     setUser(currentUser)
+  }, [])
+
+  useEffect(() => {
+    const syncTheme = () => {
+      setTheme(localStorage.getItem('theme') || 'light')
+      setAiModel(localStorage.getItem('ai_model') || 'gemini-flash')
+      setInterviewMode(localStorage.getItem('interview_mode') || 'audio_video')
+      setShowOverlay(localStorage.getItem('show_overlay') !== 'false')
+    }
+    window.addEventListener('settings-updated', syncTheme)
+    return () => window.removeEventListener('settings-updated', syncTheme)
   }, [])
 
   const handleSave = (e) => {
@@ -29,6 +41,8 @@ export default function Profile() {
     localStorage.setItem('ai_model', aiModel)
     localStorage.setItem('interview_mode', interviewMode)
     localStorage.setItem('show_overlay', showOverlay.toString())
+    localStorage.setItem('theme', theme)
+    document.documentElement.setAttribute('data-theme', theme)
     
     // Dispatch update event for Navbar listener
     window.dispatchEvent(new Event('settings-updated'))
@@ -143,6 +157,32 @@ export default function Profile() {
                     <div>
                       <h3 className="panel-title font-bold text-lg">AI Recruiter Engine</h3>
                       <p className="text-xs text-gray-400 mt-1">Tune LLM analytics capabilities and audio-visual capture telemetry.</p>
+                    </div>
+
+                    {/* System Theme Mode Selector */}
+                    <div className="setting-block">
+                      <span className="setting-block-label">System Color Scheme</span>
+                      <div className="option-cards-grid mt-2">
+                        <div 
+                          className={`option-card ${theme === 'light' ? 'active' : ''}`}
+                          onClick={() => setTheme('light')}
+                        >
+                          <div className="card-header flex items-center justify-between">
+                            <span className="card-title">☀️ Light Theme</span>
+                          </div>
+                          <p className="card-desc">Airy and bright background, optimized for study and long reading sessions.</p>
+                        </div>
+                        
+                        <div 
+                          className={`option-card ${theme === 'dark' ? 'active' : ''}`}
+                          onClick={() => setTheme('dark')}
+                        >
+                          <div className="card-header flex items-center justify-between">
+                            <span className="card-title">🌙 Dark Theme</span>
+                          </div>
+                          <p className="card-desc">Sleek charcoal backdrop, perfect for low-light practice environments.</p>
+                        </div>
+                      </div>
                     </div>
 
                     {/* AI Model Radio Cards */}

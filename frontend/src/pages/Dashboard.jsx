@@ -54,14 +54,14 @@ export default function Dashboard() {
         label: 'Overall Score',
         data: sortedSessions.map(s => s.score),
         fill: true,
-        borderColor: '#10b981', // Sage Green
-        backgroundColor: 'rgba(16, 185, 129, 0.04)', // Minimal transparent green fill
+        borderColor: '#0d9488', // Teal
+        backgroundColor: 'rgba(13, 148, 136, 0.04)', // Minimal transparent teal fill
         tension: 0.3, // Soft curve
-        pointBackgroundColor: '#10b981',
-        pointBorderColor: '#121318',
+        pointBackgroundColor: '#0d9488',
+        pointBorderColor: '#ffffff',
         pointBorderWidth: 2,
-        pointHoverBackgroundColor: '#121318',
-        pointHoverBorderColor: '#10b981',
+        pointHoverBackgroundColor: '#ffffff',
+        pointHoverBorderColor: '#0d9488',
         pointHoverBorderWidth: 2,
         pointRadius: 5,
         pointHoverRadius: 7
@@ -75,10 +75,10 @@ export default function Dashboard() {
     scales: {
       y: {
         grid: {
-          color: 'rgba(255, 255, 255, 0.04)'
+          color: 'rgba(15, 23, 42, 0.04)'
         },
         ticks: {
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: 'rgba(15, 23, 42, 0.5)',
           font: {
             family: 'Inter, system-ui, -apple-system, sans-serif',
             size: 10
@@ -93,7 +93,7 @@ export default function Dashboard() {
           display: false
         },
         ticks: {
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: 'rgba(15, 23, 42, 0.5)',
           font: {
             family: 'Inter, system-ui, -apple-system, sans-serif',
             size: 10
@@ -106,10 +106,10 @@ export default function Dashboard() {
         display: false
       },
       tooltip: {
-        backgroundColor: '#1c1d24',
-        titleColor: '#fff',
-        bodyColor: '#10b981',
-        borderColor: 'rgba(255, 255, 255, 0.08)',
+        backgroundColor: '#ffffff',
+        titleColor: '#0f172a',
+        bodyColor: '#0d9488',
+        borderColor: 'rgba(15, 23, 42, 0.08)',
         borderWidth: 1,
         padding: 10,
         displayColors: false,

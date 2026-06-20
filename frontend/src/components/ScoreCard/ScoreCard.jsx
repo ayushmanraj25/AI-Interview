@@ -47,13 +47,13 @@ export default function ScoreCard({ report }) {
       {
         label: 'Candidate Score',
         data: [technical_score, communication_score, body_language_score, pace_score, vocabulary_score],
-        backgroundColor: 'rgba(16, 185, 129, 0.15)', // Sage green transparent fill
-        borderColor: '#10b981', // Sage green border
+        backgroundColor: 'rgba(13, 148, 136, 0.15)', // Teal transparent fill
+        borderColor: '#0d9488', // Teal border
         borderWidth: 2,
-        pointBackgroundColor: '#10b981',
+        pointBackgroundColor: '#0d9488',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: '#10b981',
+        pointHoverBorderColor: '#0d9488',
         pointRadius: 3
       }
     ]
@@ -63,13 +63,13 @@ export default function ScoreCard({ report }) {
     scales: {
       r: {
         angleLines: {
-          color: 'rgba(255, 255, 255, 0.08)'
+          color: 'rgba(15, 23, 42, 0.08)'
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.08)'
+          color: 'rgba(15, 23, 42, 0.08)'
         },
         pointLabels: {
-          color: '#e2e8f0',
+          color: '#334155', // Slate 700
           font: {
             family: 'Inter, system-ui, -apple-system, sans-serif',
             size: 11,
@@ -78,7 +78,7 @@ export default function ScoreCard({ report }) {
         },
         ticks: {
           backdropColor: 'transparent',
-          color: 'rgba(255, 255, 255, 0.3)',
+          color: 'rgba(15, 23, 42, 0.4)',
           showLabelBackdrop: false,
           stepSize: 20,
           font: {
@@ -111,7 +111,7 @@ export default function ScoreCard({ report }) {
         <svg className="progress-ring" width="120" height="120">
           <circle
             className="progress-ring-bg"
-            stroke="rgba(255,255,255,0.05)"
+            stroke="rgba(15, 23, 42, 0.05)"
             strokeWidth="8"
             fill="transparent"
             r={radius}
@@ -132,8 +132,8 @@ export default function ScoreCard({ report }) {
           />
           <defs>
             <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#10b981" />
-              <stop offset="100%" stopColor="#047857" />
+              <stop offset="0%" stopColor="#0d9488" />
+              <stop offset="100%" stopColor="#0f766e" />
             </linearGradient>
           </defs>
         </svg>

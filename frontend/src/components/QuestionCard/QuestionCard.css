@@ -20,7 +20,7 @@
 }
 
 .progress-bar-container {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(15, 23, 42, 0.06);
   height: 4px;
   border-radius: 999px;
   overflow: hidden;
@@ -33,7 +33,7 @@
 }
 
 .question-body {
-  border-left: 2px solid rgba(255, 255, 255, 0.04);
+  border-left: 2px solid rgba(15, 23, 42, 0.06);
   padding-left: 1rem;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .tips-container {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-color);
   padding-top: 1rem;
 }
 
@@ -64,8 +64,8 @@
 }
 
 .tips-list {
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.85rem 1.25rem;
   font-size: 0.8rem;

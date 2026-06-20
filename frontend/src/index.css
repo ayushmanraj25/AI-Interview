@@ -1,8 +1,37 @@
 /* Import Google Fonts directly */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap');
 
-/* Minimalist Natural Design System */
 :root {
+  /* Default: Light Theme */
+  --bg-color: #f8fafc; /* Slate 50 (Airy cool white) */
+  --panel-bg: rgba(255, 255, 255, 0.85); /* Frost white */
+  --border-color: rgba(15, 23, 42, 0.08); /* Soft slate border */
+  --text-primary: #0f172a; /* Slate 900 */
+  --text-secondary: #475569; /* Slate 600 */
+  --brand-primary: #0d9488; /* Emerald Teal / Sage */
+  --brand-secondary: #0f766e; /* Deep Teal */
+  --brand-gradient: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  --success-color: #0d9488;
+  --error-color: #dc2626; /* Clean rich red */
+  --warning-color: #ea580c; /* Clean orange */
+  --btn-primary-glow: rgba(13, 148, 136, 0.25);
+  --btn-secondary-bg: #ffffff;
+  --btn-secondary-hover: rgba(15, 23, 42, 0.02);
+  --btn-secondary-glow: rgba(15, 23, 42, 0.04);
+  --input-bg: #ffffff;
+  --toast-bg: rgba(255, 255, 255, 0.95);
+  --hud-bg: rgba(15, 23, 42, 0.9);
+  --soft-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); /* Softer shadow */
+
+  /* Common attributes */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --header-font: 'Outfit', system-ui, -apple-system, sans-serif;
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --border-radius: 12px;
+}
+
+[data-theme='dark'] {
+  /* Dark Theme variables */
   --bg-color: #121318; /* Warm Charcoal */
   --panel-bg: rgba(26, 28, 36, 0.75); /* Soft Stone */
   --border-color: rgba(255, 255, 255, 0.05);
@@ -14,10 +43,13 @@
   --success-color: #10b981;
   --error-color: #f87171;
   --warning-color: #fbbf24;
-  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  --header-font: 'Outfit', system-ui, -apple-system, sans-serif;
-  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --border-radius: 12px;
+  --btn-primary-glow: rgba(16, 185, 129, 0.25);
+  --btn-secondary-bg: rgba(255, 255, 255, 0.03);
+  --btn-secondary-hover: rgba(255, 255, 255, 0.06);
+  --btn-secondary-glow: rgba(0, 0, 0, 0.15);
+  --input-bg: rgba(10, 11, 15, 0.5);
+  --toast-bg: rgba(18, 19, 24, 0.85);
+  --hud-bg: rgba(18, 19, 24, 0.9);
   --soft-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
@@ -35,8 +67,8 @@ body {
   overflow-x: hidden;
   line-height: 1.5;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.03) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(5, 150, 105, 0.02) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(15, 118, 110, 0.03) 0px, transparent 50%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
@@ -49,7 +81,7 @@ body {
   background: var(--bg-color);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.12);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -116,8 +148,8 @@ h1, h2, h3, h4 {
 
 .glass-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
 }
 
 /* Form Styles */
@@ -136,7 +168,7 @@ h1, h2, h3, h4 {
 }
 
 .form-input {
-  background: rgba(10, 11, 15, 0.5);
+  background: var(--input-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: var(--text-primary);
@@ -149,6 +181,7 @@ h1, h2, h3, h4 {
 .form-input:focus {
   outline: none;
   border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
 }
 
 /* Button Styles - Clean, Solid & Highly Interactive */
@@ -158,9 +191,11 @@ h1, h2, h3, h4 {
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
+  font-family: var(--header-font);
   padding: 0.75rem 1.5rem;
   text-align: center;
-  /* Smooth spring easing for layout transition scale */
+  position: relative;
+  overflow: hidden;
   transition: 
     transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
     background-color 0.2s ease, 
@@ -170,54 +205,82 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Shine gradient glide effect overlay */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: none;
+}
+
+.btn:hover::after {
+  left: 150%;
+  transition: left 0.8s ease-in-out;
 }
 
 .btn-primary {
   background: var(--brand-primary);
   color: #fff;
+  box-shadow: 0 4px 14px var(--btn-primary-glow);
 }
 
 .btn-primary:hover {
   background: var(--brand-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 6px 20px var(--btn-primary-glow);
 }
 
 .btn-primary:active {
   transform: translateY(0) scale(0.97);
-  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 2px 6px var(--btn-primary-glow);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--btn-secondary-bg);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--btn-secondary-glow);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--btn-secondary-hover);
+  border-color: rgba(15, 23, 42, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--btn-secondary-glow);
+}
+
+[data-theme='dark'] .btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .btn-secondary:active {
   transform: translateY(0) scale(0.97);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--btn-secondary-glow);
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.08);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: rgba(220, 38, 38, 0.05);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.15);
 }
 
 .btn-danger:hover {
-  background: rgba(239, 68, 68, 0.14);
-  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(220, 38, 38, 0.09);
+  border-color: rgba(220, 38, 38, 0.25);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.12);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
 }
 
 .btn-danger:active {

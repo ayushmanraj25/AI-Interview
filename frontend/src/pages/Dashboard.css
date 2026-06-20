@@ -32,7 +32,7 @@
 
 .logs-table th {
   padding: 0.75rem 1rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 2px solid var(--border-color);
   font-size: 0.8rem;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -41,7 +41,7 @@
 
 .logs-table td {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
 }
 
