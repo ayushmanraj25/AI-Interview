@@ -73,7 +73,7 @@ export default function Results() {
           </>
         ) : (
           <div className="glass-card p-6 text-center">
-            <p className="text-gray-400">Report details could not be found or loaded.</p>
+            <p className="text-gray-400">Report details could not be found or loadd.</p>
           </div>
         )}
       </div>
